@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / Editors
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Data (commit only small, necessary samples)
+data/raw/
+# Keep processed small tables if needed; otherwise ignore
+# data/processed/
+
+# Outputs (commit final small charts/tables only if needed)
+output/
+
+# Env / secrets
+.env
+*.env
+
+# Test / cache
+.pytest_cache/
+.mypy_cache/
