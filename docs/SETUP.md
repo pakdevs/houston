@@ -1,18 +1,16 @@
 # Setup (Windows + PowerShell + VS Code + Python)
 
-Documenting the exact environment and steps used for the 3‑hour test so others can reproduce it.
+Short, reproducible steps to get this project running.
 
-## Summary
+## Environment
 
-- OS: Windows
-- Shell: PowerShell (v5.1)
-- Editor: VS Code
-- Python: 3.13 (project venv at `.venv/`)
-- Kernel: Jupyter kernel registered as "Python (.venv) Houston"
-- Key libs: pandas, numpy, jupyter, matplotlib (Agg), seaborn, requests, openpyxl, pyarrow, altair
-- Project root: this folder
+- Windows + PowerShell (v5.1)
+- VS Code
+- Python 3.13 with project venv at `.venv/`
+- Jupyter kernel: "Python (.venv) Houston"
+- Libraries: pandas, numpy, jupyter, matplotlib (Agg), seaborn, requests, openpyxl, pyarrow, altair
 
-## 1) Install/check prerequisites
+## 1) Check prerequisites
 
 ```powershell
 py --version
@@ -21,14 +19,14 @@ code --version
 git --version
 ```
 
-If Python/Git are missing, install from python.org and git-scm.com. In the Python installer, check "Add python.exe to PATH".
+If missing, install Python (add to PATH during install) and Git.
 
-## 2) Create and activate virtual environment
+## 2) Create and activate the virtual environment
 
 ```powershell
 py -3 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-# If blocked, allow for this session only:
+# If activation is blocked, temporarily allow it for this session:
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; .\.venv\Scripts\Activate.ps1
 ```
 
@@ -39,7 +37,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Packages are pinned in `requirements.txt`. Matplotlib uses the headless "Agg" backend in our notebooks/scripts to avoid Tk/Tcl issues.
+Packages are listed in `requirements.txt`. Notebooks use the headless "Agg" Matplotlib backend to avoid GUI issues.
 
 ## 4) Register the Jupyter kernel
 
@@ -49,36 +47,28 @@ Packages are pinned in `requirements.txt`. Matplotlib uses the headless "Agg" ba
 
 ## 5) VS Code configuration
 
-- Extensions: Python (Microsoft), Jupyter (Microsoft), Pylance (Microsoft)
-- Interpreter: Ctrl+Shift+P → "Python: Select Interpreter" → choose `.venv` inside this project
-- Settings: `.vscode/settings.json` points at `.venv/Scripts/python.exe` and surfaces the kernel
+- Install extensions: Python, Jupyter, Pylance (Microsoft)
+- Select interpreter: Ctrl+Shift+P → "Python: Select Interpreter" → pick this project’s `.venv`
+- `.vscode/settings.json` points to `.venv/Scripts/python.exe` and surfaces the kernel
 
-## 6) Folder structure (already created)
+## 6) Folder structure
 
-- `data/raw` — original downloads (unchanged)
+- `data/raw` — put your original files here (CSV/XLSX)
 - `data/processed` — cleaned/derived files
-- `notebooks` — Jupyter notebooks (`01_ingest_eda.ipynb`)
+- `notebooks` — Jupyter notebooks (e.g., `houston.ipynb`)
 - `output/charts`, `output/tables` — exported figures/tables
-- `docs` — this setup doc, methods, sources, AI log, story outline
+- `docs` — setup, methods, sources, logs
 
-## 7) Quick smoke test
+## 7) Run the EDA notebook
 
-Open `notebooks/01_ingest_eda.ipynb` in VS Code, select the "Python (.venv) Houston" kernel, then Run All. Expected outputs:
+- Place a CSV or XLSX in `data/raw/` (required — no sample will be created)
+- Open `notebooks/houston.ipynb` in VS Code
+- Select the "Python (.venv) Houston" kernel and Run All
+- Outputs will be saved to `output/tables/` and `output/charts/`
 
-- `output/tables/summary.csv`
-- `output/charts/hist_*.png`
-  If no CSV exists in `data/raw/`, the notebook writes a tiny sample dataset there and uses it.
+## 8) Troubleshooting
 
-## 8) Logging and reproducibility
-
-- Document sources and access dates in `docs/SOURCES.md`
-- Record methods/transformations in `docs/METHODS.md`
-- Keep a timestamped work log in `docs/RUN_LOG.md`
-- Commit logical changes; avoid committing large raw files
-
-## 9) Troubleshooting
-
-- Tk/Tcl error on Windows: notebooks/scripts set `matplotlib.use("Agg")` to render without a GUI
-- Wrong kernel or interpreter: re-select `.venv` and the "Python (.venv) Houston" kernel in VS Code
-- Activation blocked: use the one-line policy bypass shown above
-- Missing packages: re-run `pip install -r requirements.txt`, then restart VS Code and the kernel
+- Tk/Tcl errors: notebooks set `matplotlib.use("Agg")` (no GUI required)
+- Wrong kernel/interpreter: reselect the project `.venv` and kernel in VS Code
+- Activation blocked: use the one-line ExecutionPolicy bypass shown above
+- Missing packages: `pip install -r requirements.txt`, then restart VS Code and the kernel

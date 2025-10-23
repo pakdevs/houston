@@ -2,7 +2,7 @@
 
 Use this folder for exploratory and analysis notebooks. Suggested naming:
 
-- `01_ingest_eda.ipynb`
+- `houston.ipynb` (primary EDA notebook)
 - `02_clean_transform.ipynb`
 - `03_analysis_viz.ipynb`
 
